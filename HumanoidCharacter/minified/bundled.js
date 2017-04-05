@@ -2,7 +2,7 @@
 var AliveClass = (function () {
     function AliveClass() {
         this.currentVoiceIndex = 0;
-        this.changeInFirstTen = 0;
+        this.voiceIndexSet = false;
     }
     /**
      * This method gets called every 250 milliseconds by the system, any logic updates to the state of your character should occur here.
@@ -12,7 +12,8 @@ var AliveClass = (function () {
     AliveClass.prototype.onTick = function (time) {
         if (this.voices == null || this.voices.length == 0)
             this.voices = this.textToSpeechManager.getVoices();
-        if (this.changeInFirstTen < 10 && this.voices != null) {
+        var index = this.databaseManager.getObject("Index");
+        if (index == null && this.voices != null) {
             var phoneLanguage = this.configurationManager.getSystemISO3Language();
             for (var i = 0; i < this.voices.length; i++) {
                 if (this.voices[i].getISO3Language() == phoneLanguage) {
@@ -20,14 +21,36 @@ var AliveClass = (function () {
                     break;
                 }
             }
-            var name_1 = this.getVoiceTextPresentation(this.voices[this.currentVoiceIndex]);
-            this.menuManager.setProperty("LangTextBox", "Text", name_1);
-            this.textToSpeechManager.setVoice(this.currentVoiceIndex);
-            this.changeInFirstTen++;
+            this.databaseManager.saveObject("Index", this.currentVoiceIndex.toString());
+            this.changeVoice(true);
+        }
+        else {
+            this.currentVoiceIndex = parseInt(index);
+            this.changeVoice(false);
         }
     };
+    /**
+     * This method sets the Text-To-Speech voice to a different voice (using the currentVoiceIndex).
+     * @param force If true, we force a change.
+     */
+    AliveClass.prototype.changeVoice = function (force) {
+        if (this.voiceIndexSet && !force)
+            return;
+        this.voiceIndexSet = true;
+        this.actionManager.showMessage("changing..");
+        var name = this.getVoiceTextPresentation(this.voices[this.currentVoiceIndex]);
+        this.menuManager.setProperty("LangTextBox", "Text", name);
+        this.textToSpeechManager.setVoice(this.currentVoiceIndex);
+        this.databaseManager.saveObject("Index", this.currentVoiceIndex.toString());
+    };
+    /**
+     * This method changes the text in the menu to the correct voice text.
+     * @param v The current voice that we use.
+     */
     AliveClass.prototype.getVoiceTextPresentation = function (v) {
-        var gender = v.getName().indexOf("female") != -1 ? "female" : "male";
+        var gender = v.getName().indexOf("female") != -1 ? "female" : "";
+        if (gender == "")
+            gender = v.getName().indexOf("male") != -1 ? "male" : "unknown gender";
         return v.getISO3Language() + " " + gender + " " + this.currentVoiceIndex.toString() + "/" + (this.voices.length - 1).toString();
     };
     /**
@@ -45,6 +68,7 @@ var AliveClass = (function () {
     AliveClass.prototype.onStart = function (handler, disabledPermissions) {
         this.configurationManager = handler.getConfigurationManager();
         this.textToSpeechManager = handler.getTextToSpeechManager();
+        this.databaseManager = handler.getDatabaseManager();
         this.actionManager = handler.getActionManager();
         this.menuManager = handler.getMenuManager();
         if (!this.textToSpeechManager.isAvailable()) {
@@ -60,7 +84,6 @@ var AliveClass = (function () {
      */
     AliveClass.prototype.onPhoneEventOccurred = function (eventName, jsonedData) {
         if (this.textToSpeechManager.isSpeaking()) {
-            this.actionManager.showMessage("Already speaking..");
             return;
         }
         switch (eventName) {
@@ -173,9 +196,7 @@ var AliveClass = (function () {
                     this.currentVoiceIndex++;
                 break;
         }
-        var name = this.getVoiceTextPresentation(this.voices[this.currentVoiceIndex]);
-        this.menuManager.setProperty("LangTextBox", "Text", name);
-        this.textToSpeechManager.setVoice(this.currentVoiceIndex);
+        this.changeVoice(true);
     };
     /**
      * This method gets called once just before the onStart method and is where the character menu views are defined.
@@ -3012,10 +3033,10 @@ var collections;
     collections.BSTree = BSTree;
 })(collections || (collections = {})); // End of module 
 //# sourceMappingURL=collections.js.map
-//# sourceMappingURL=ICalendarEvent.js.map
 //# sourceMappingURL=IAliveLocation.js.map
 //# sourceMappingURL=IAliveUserActivity.js.map
 //# sourceMappingURL=IAliveWeather.js.map
+//# sourceMappingURL=ICalendarEvent.js.map
 var BaseMenuItem = (function () {
     function BaseMenuItem() {
     }
@@ -3096,14 +3117,6 @@ var ViewType = (function () {
     return ViewType;
 }());
 //# sourceMappingURL=ViewType.js.map
-//# sourceMappingURL=IBaseMenuItem.js.map
-//# sourceMappingURL=IButtonMenuItem.js.map
-//# sourceMappingURL=ICheckBoxMenuItem.js.map
-//# sourceMappingURL=IMenuHeader.js.map
-//# sourceMappingURL=IPaintMenuItem.js.map
-//# sourceMappingURL=IPictureMenuItem.js.map
-//# sourceMappingURL=IProgressBarMenuItem.js.map
-//# sourceMappingURL=ITextBoxMenuItem.js.map
 //# sourceMappingURL=IAliveLatLng.js.map
 //# sourceMappingURL=IAliveLatLngBounds.js.map
 //# sourceMappingURL=IAliveLocation.js.map
@@ -3750,3 +3763,11 @@ var PlaceType = (function () {
     return PlaceType;
 }());
 //# sourceMappingURL=PlaceType.js.map
+//# sourceMappingURL=IBaseMenuItem.js.map
+//# sourceMappingURL=IButtonMenuItem.js.map
+//# sourceMappingURL=ICheckBoxMenuItem.js.map
+//# sourceMappingURL=IMenuHeader.js.map
+//# sourceMappingURL=IPaintMenuItem.js.map
+//# sourceMappingURL=IPictureMenuItem.js.map
+//# sourceMappingURL=IProgressBarMenuItem.js.map
+//# sourceMappingURL=ITextBoxMenuItem.js.map

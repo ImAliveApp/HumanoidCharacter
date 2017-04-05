@@ -3,17 +3,18 @@
 class AliveClass implements IAliveAgent {
     private configurationManager: IConfigurationManager;
     private textToSpeechManager: ITextToSpeechManager;
+    private databaseManager: IDatabaseManager;
     private actionManager: IActionManager;
     private menuManager: IMenuManager;
 
     private voices: IVoice[];
 
-    private changeInFirstTen: number;
     private currentVoiceIndex: number;
+    private voiceIndexSet: boolean;
 
     public constructor() {
         this.currentVoiceIndex = 0;
-        this.changeInFirstTen = 0;
+        this.voiceIndexSet = false;
     }
 
     /**
@@ -25,7 +26,9 @@ class AliveClass implements IAliveAgent {
         if (this.voices == null || this.voices.length == 0)
             this.voices = this.textToSpeechManager.getVoices();
 
-        if (this.changeInFirstTen < 10 && this.voices != null) {
+        let index = this.databaseManager.getObject("Index");
+
+        if (index == null && this.voices != null) {
             let phoneLanguage = this.configurationManager.getSystemISO3Language();
             for (let i = 0; i < this.voices.length; i++) {
                 if (this.voices[i].getISO3Language() == phoneLanguage) {
@@ -34,14 +37,35 @@ class AliveClass implements IAliveAgent {
                 }
             }
 
-            let name = this.getVoiceTextPresentation(this.voices[this.currentVoiceIndex]);
-            this.menuManager.setProperty("LangTextBox", "Text", name);
-            this.textToSpeechManager.setVoice(this.currentVoiceIndex);
-            this.changeInFirstTen++;
+            this.databaseManager.saveObject("Index", this.currentVoiceIndex.toString());
+            
+            this.changeVoice(true);
+        }
+        else {
+            this.currentVoiceIndex = parseInt(index);
+            this.changeVoice(false);
         }
     }
 
+    /**
+     * This method sets the Text-To-Speech voice to a different voice (using the currentVoiceIndex).
+     * @param force If true, we force a change.
+     */
+    changeVoice(force: boolean): void {
+        if (this.voiceIndexSet && !force) return;
 
+        this.voiceIndexSet = true;
+        this.actionManager.showMessage("changing..");
+        let name = this.getVoiceTextPresentation(this.voices[this.currentVoiceIndex]);
+        this.menuManager.setProperty("LangTextBox", "Text", name);
+        this.textToSpeechManager.setVoice(this.currentVoiceIndex);
+        this.databaseManager.saveObject("Index", this.currentVoiceIndex.toString());
+    }
+
+    /**
+     * This method changes the text in the menu to the correct voice text.
+     * @param v The current voice that we use.
+     */
     getVoiceTextPresentation(v: IVoice): string {
         let gender = v.getName().indexOf("female") != -1 ? "female" : "";
         if (gender == "")
@@ -66,6 +90,7 @@ class AliveClass implements IAliveAgent {
     onStart(handler: IManagersHandler, disabledPermissions: string[]): void {
         this.configurationManager = handler.getConfigurationManager();
         this.textToSpeechManager = handler.getTextToSpeechManager();
+        this.databaseManager = handler.getDatabaseManager();
         this.actionManager = handler.getActionManager();
         this.menuManager = handler.getMenuManager();
         
@@ -84,7 +109,6 @@ class AliveClass implements IAliveAgent {
     onPhoneEventOccurred(eventName: string, jsonedData: string): void {
         if (this.textToSpeechManager.isSpeaking())
         {
-            this.actionManager.showMessage("Already speaking..");
             return;
         }
 
@@ -227,9 +251,7 @@ class AliveClass implements IAliveAgent {
                 break;
         }
 
-        let name = this.getVoiceTextPresentation(this.voices[this.currentVoiceIndex]);
-        this.menuManager.setProperty("LangTextBox", "Text", name);
-        this.textToSpeechManager.setVoice(this.currentVoiceIndex);
+        this.changeVoice(true);
     }
 
     /**
