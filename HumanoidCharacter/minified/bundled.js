@@ -21,7 +21,6 @@ var AliveClass = (function () {
                     break;
                 }
             }
-            this.databaseManager.saveObject("Index", this.currentVoiceIndex.toString());
             this.changeVoice(true);
         }
         else {
@@ -42,6 +41,7 @@ var AliveClass = (function () {
         this.menuManager.setProperty("LangTextBox", "Text", name);
         this.textToSpeechManager.setVoice(this.currentVoiceIndex);
         this.databaseManager.saveObject("Index", this.currentVoiceIndex.toString());
+        this.databaseManager.saveObject("VoiceName", name);
     };
     /**
      * This method changes the text in the menu to the correct voice text.
