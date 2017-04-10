@@ -36,7 +36,6 @@ var AliveClass = (function () {
         if (this.voiceIndexSet && !force)
             return;
         this.voiceIndexSet = true;
-        this.actionManager.showMessage("changing..");
         var name = this.getVoiceTextPresentation(this.voices[this.currentVoiceIndex]);
         this.menuManager.setProperty("LangTextBox", "Text", name);
         this.textToSpeechManager.setVoice(this.currentVoiceIndex);
@@ -221,13 +220,16 @@ var AliveClass = (function () {
         NextButton.Text = "Next";
         NextButton.TextColor = "#0591de";
         NextButton.Name = "NextButton";
+        var text = this.databaseManager.getObject("VoiceName");
+        if (text == null)
+            text = "Current Language: English";
         var TextBox = new TextBoxMenuItem();
         TextBox.BackgroundColor = "#000000";
         TextBox.Height = 3;
         TextBox.InitialX = 0;
         TextBox.InitialY = 0;
         TextBox.Name = "LangTextBox";
-        TextBox.Text = "Current Language: English";
+        TextBox.Text = text;
         TextBox.TextColor = "#0591de";
         TextBox.Width = menuBuilder.getMaxColumns();
         menuBuilder.createButton(PrevButton);

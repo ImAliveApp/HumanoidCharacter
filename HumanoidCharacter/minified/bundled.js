@@ -36,7 +36,6 @@ var AliveClass = (function () {
         if (this.voiceIndexSet && !force)
             return;
         this.voiceIndexSet = true;
-        this.actionManager.showMessage("changing..");
         var name = this.getVoiceTextPresentation(this.voices[this.currentVoiceIndex]);
         this.menuManager.setProperty("LangTextBox", "Text", name);
         this.textToSpeechManager.setVoice(this.currentVoiceIndex);
@@ -221,13 +220,16 @@ var AliveClass = (function () {
         NextButton.Text = "Next";
         NextButton.TextColor = "#0591de";
         NextButton.Name = "NextButton";
+        var text = this.databaseManager.getObject("VoiceName");
+        if (text == null)
+            text = "Current Language: English";
         var TextBox = new TextBoxMenuItem();
         TextBox.BackgroundColor = "#000000";
         TextBox.Height = 3;
         TextBox.InitialX = 0;
         TextBox.InitialY = 0;
         TextBox.Name = "LangTextBox";
-        TextBox.Text = "Current Language: English";
+        TextBox.Text = text;
         TextBox.TextColor = "#0591de";
         TextBox.Width = menuBuilder.getMaxColumns();
         menuBuilder.createButton(PrevButton);
@@ -527,11 +529,16 @@ var ResourceManagerHelper = (function () {
 // Licensed under MIT open source license http://opensource.org/licenses/MIT
 //
 // Orginal javascript code was by Mauricio Santos
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 /**
  * @namespace Top level namespace for collections, a TypeScript data structure library.
  */
@@ -3117,6 +3124,14 @@ var ViewType = (function () {
     return ViewType;
 }());
 //# sourceMappingURL=ViewType.js.map
+//# sourceMappingURL=IBaseMenuItem.js.map
+//# sourceMappingURL=IButtonMenuItem.js.map
+//# sourceMappingURL=ICheckBoxMenuItem.js.map
+//# sourceMappingURL=IMenuHeader.js.map
+//# sourceMappingURL=IPaintMenuItem.js.map
+//# sourceMappingURL=IPictureMenuItem.js.map
+//# sourceMappingURL=IProgressBarMenuItem.js.map
+//# sourceMappingURL=ITextBoxMenuItem.js.map
 //# sourceMappingURL=IAliveLatLng.js.map
 //# sourceMappingURL=IAliveLatLngBounds.js.map
 //# sourceMappingURL=IAliveLocation.js.map
@@ -3763,11 +3778,3 @@ var PlaceType = (function () {
     return PlaceType;
 }());
 //# sourceMappingURL=PlaceType.js.map
-//# sourceMappingURL=IBaseMenuItem.js.map
-//# sourceMappingURL=IButtonMenuItem.js.map
-//# sourceMappingURL=ICheckBoxMenuItem.js.map
-//# sourceMappingURL=IMenuHeader.js.map
-//# sourceMappingURL=IPaintMenuItem.js.map
-//# sourceMappingURL=IPictureMenuItem.js.map
-//# sourceMappingURL=IProgressBarMenuItem.js.map
-//# sourceMappingURL=ITextBoxMenuItem.js.map

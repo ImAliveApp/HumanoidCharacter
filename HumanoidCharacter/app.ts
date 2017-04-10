@@ -53,7 +53,7 @@ class AliveClass implements IAliveAgent {
         if (this.voiceIndexSet && !force) return;
 
         this.voiceIndexSet = true;
-        this.actionManager.showMessage("changing..");
+        
         let name = this.getVoiceTextPresentation(this.voices[this.currentVoiceIndex]);
         this.menuManager.setProperty("LangTextBox", "Text", name);
         this.textToSpeechManager.setVoice(this.currentVoiceIndex);
@@ -278,13 +278,17 @@ class AliveClass implements IAliveAgent {
         NextButton.TextColor = "#0591de";
         NextButton.Name = "NextButton";
 
+        let text = this.databaseManager.getObject("VoiceName");
+        if(text == null)
+            text = "Current Language: English";
+
         let TextBox = new TextBoxMenuItem();
         TextBox.BackgroundColor = "#000000";
         TextBox.Height = 3;
         TextBox.InitialX = 0;
         TextBox.InitialY = 0;
         TextBox.Name = "LangTextBox";
-        TextBox.Text = "Current Language: English";
+        TextBox.Text = text;
         TextBox.TextColor = "#0591de";
         TextBox.Width = menuBuilder.getMaxColumns();
 
