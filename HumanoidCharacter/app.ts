@@ -36,7 +36,7 @@ class AliveClass implements IAliveAgent {
                     break;
                 }
             }
-            
+
             this.changeVoice(true);
         }
         else {
@@ -53,7 +53,7 @@ class AliveClass implements IAliveAgent {
         if (this.voiceIndexSet && !force) return;
 
         this.voiceIndexSet = true;
-        
+
         let name = this.getVoiceTextPresentation(this.voices[this.currentVoiceIndex]);
         this.menuManager.setProperty("LangTextBox", "Text", name);
         this.textToSpeechManager.setVoice(this.currentVoiceIndex);
@@ -92,9 +92,9 @@ class AliveClass implements IAliveAgent {
         this.databaseManager = handler.getDatabaseManager();
         this.actionManager = handler.getActionManager();
         this.menuManager = handler.getMenuManager();
-        
+
         if (!this.textToSpeechManager.isAvailable()) {
-            handler.getActionManager().showMessage("No Text-To-Speech Engine available, closing character..");
+            handler.getActionManager().showMessage("No Text-To-Speech Engine available, closing character..", "#000000", "#eeeeee", 2000);
             handler.getActionManager().terminate();
         }
     }
@@ -106,8 +106,7 @@ class AliveClass implements IAliveAgent {
      * For example, SMS_RECEIVED event will hold data about who sent the SMS, and the SMS content.
      */
     onPhoneEventOccurred(eventName: string, jsonedData: string): void {
-        if (this.textToSpeechManager.isSpeaking())
-        {
+        if (this.textToSpeechManager.isSpeaking()) {
             return;
         }
 
@@ -279,7 +278,7 @@ class AliveClass implements IAliveAgent {
         NextButton.Name = "NextButton";
 
         let text = this.databaseManager.getObject("VoiceName");
-        if(text == null)
+        if (text == null)
             text = "Current Language: English";
 
         let TextBox = new TextBoxMenuItem();
