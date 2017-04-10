@@ -71,7 +71,7 @@ var AliveClass = (function () {
         this.actionManager = handler.getActionManager();
         this.menuManager = handler.getMenuManager();
         if (!this.textToSpeechManager.isAvailable()) {
-            handler.getActionManager().showMessage("No Text-To-Speech Engine available, closing character..");
+            handler.getActionManager().showMessage("No Text-To-Speech Engine available, closing character..", "#000000", "#eeeeee", 2000);
             handler.getActionManager().terminate();
         }
     };
