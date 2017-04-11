@@ -14,11 +14,8 @@ var AliveClass = (function () {
             this.voices = this.textToSpeechManager.getVoices();
         var index = this.databaseManager.getObject("Index");
         if (index != null) {
-            this.changeVoice(true);
-        }
-        else {
             this.currentVoiceIndex = parseInt(index);
-            this.changeVoice(false);
+            this.changeVoice(true);
         }
     };
     /**
@@ -3117,6 +3114,14 @@ var ViewType = (function () {
     return ViewType;
 }());
 //# sourceMappingURL=ViewType.js.map
+//# sourceMappingURL=IBaseMenuItem.js.map
+//# sourceMappingURL=IButtonMenuItem.js.map
+//# sourceMappingURL=ICheckBoxMenuItem.js.map
+//# sourceMappingURL=IMenuHeader.js.map
+//# sourceMappingURL=IPaintMenuItem.js.map
+//# sourceMappingURL=IPictureMenuItem.js.map
+//# sourceMappingURL=IProgressBarMenuItem.js.map
+//# sourceMappingURL=ITextBoxMenuItem.js.map
 //# sourceMappingURL=IAliveLatLng.js.map
 //# sourceMappingURL=IAliveLatLngBounds.js.map
 //# sourceMappingURL=IAliveLocation.js.map
@@ -3763,11 +3768,3 @@ var PlaceType = (function () {
     return PlaceType;
 }());
 //# sourceMappingURL=PlaceType.js.map
-//# sourceMappingURL=IBaseMenuItem.js.map
-//# sourceMappingURL=IButtonMenuItem.js.map
-//# sourceMappingURL=ICheckBoxMenuItem.js.map
-//# sourceMappingURL=IMenuHeader.js.map
-//# sourceMappingURL=IPaintMenuItem.js.map
-//# sourceMappingURL=IPictureMenuItem.js.map
-//# sourceMappingURL=IProgressBarMenuItem.js.map
-//# sourceMappingURL=ITextBoxMenuItem.js.map
