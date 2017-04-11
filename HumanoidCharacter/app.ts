@@ -28,20 +28,9 @@ class AliveClass implements IAliveAgent {
 
         let index = this.databaseManager.getObject("Index");
 
-        if (index == null && this.voices != null) {
-            let phoneLanguage = this.configurationManager.getSystemISO3Language();
-            for (let i = 0; i < this.voices.length; i++) {
-                if (this.voices[i].getISO3Language() == phoneLanguage) {
-                    this.currentVoiceIndex = i;
-                    break;
-                }
-            }
-
-            this.changeVoice(true);
-        }
-        else {
+        if (index != null) {
             this.currentVoiceIndex = parseInt(index);
-            this.changeVoice(false);
+            this.changeVoice(true);
         }
     }
 
@@ -94,7 +83,7 @@ class AliveClass implements IAliveAgent {
         this.menuManager = handler.getMenuManager();
 
         if (!this.textToSpeechManager.isAvailable()) {
-            handler.getActionManager().showMessage("No Text-To-Speech Engine available, closing character..", "#000000", "#eeeeee", 2000);
+            handler.getActionManager().showSystemMessage("No Text-To-Speech Engine available, closing character..");
             handler.getActionManager().terminate();
         }
     }

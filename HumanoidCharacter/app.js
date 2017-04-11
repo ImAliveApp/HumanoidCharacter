@@ -13,19 +13,9 @@ var AliveClass = (function () {
         if (this.voices == null || this.voices.length == 0)
             this.voices = this.textToSpeechManager.getVoices();
         var index = this.databaseManager.getObject("Index");
-        if (index == null && this.voices != null) {
-            var phoneLanguage = this.configurationManager.getSystemISO3Language();
-            for (var i = 0; i < this.voices.length; i++) {
-                if (this.voices[i].getISO3Language() == phoneLanguage) {
-                    this.currentVoiceIndex = i;
-                    break;
-                }
-            }
-            this.changeVoice(true);
-        }
-        else {
+        if (index != null) {
             this.currentVoiceIndex = parseInt(index);
-            this.changeVoice(false);
+            this.changeVoice(true);
         }
     };
     /**
@@ -71,7 +61,7 @@ var AliveClass = (function () {
         this.actionManager = handler.getActionManager();
         this.menuManager = handler.getMenuManager();
         if (!this.textToSpeechManager.isAvailable()) {
-            handler.getActionManager().showMessage("No Text-To-Speech Engine available, closing character..", "#000000", "#eeeeee", 2000);
+            handler.getActionManager().showSystemMessage("No Text-To-Speech Engine available, closing character..");
             handler.getActionManager().terminate();
         }
     };
