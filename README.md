@@ -7,11 +7,11 @@ This character will use react to almost every phone event with the help of the T
 ### How to use:
 In order to use this template, do the following steps:
 
-1. Download and build it this project ([guide](https://github.com/hay12396/ImAliveGuide/wiki/How-to:-Build-and-upload-a-character-code))
+1. Download the project.
 
-2. Register your character to the phone events that you wish to responds to ([guide](https://www.youtube.com/watch?v=SByJnkZn4gI&feature=youtu.be))
+2. Register your character to the phone events that you wish to responds to ([guide](https://youtu.be/HGkpn2y04B8))
 
-3. Publish your character and see the results! ([guide](https://github.com/hay12396/ImAliveGuide/wiki/How-to:-Publish-your-character))
+3. Publish your character and see the results! ([guide](https://github.com/ImAliveApp/ImAliveGuide/wiki/How-to:-Publish-your-character))
 
 ### The code:
 Most of the work is done in the "onPhoneEventOccurred" method:
