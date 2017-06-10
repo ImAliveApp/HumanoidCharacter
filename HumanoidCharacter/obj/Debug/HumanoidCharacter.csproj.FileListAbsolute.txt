@@ -3,3 +3,4 @@ C:\Users\Hay Zohar\Documents\GitHub\HumanoidCharacter\HumanoidCharacter\bin\Huma
 C:\Users\Hay Zohar\Documents\GitHub\HumanoidCharacter\HumanoidCharacter\bin\HumanoidCharacter.pdb
 C:\Users\Hay Zohar\Documents\GitHub\HumanoidCharacter\HumanoidCharacter\obj\Debug\HumanoidCharacter.dll
 C:\Users\Hay Zohar\Documents\GitHub\HumanoidCharacter\HumanoidCharacter\obj\Debug\HumanoidCharacter.pdb
+C:\Users\Hay Zohar\Documents\GitHub\HumanoidCharacter\HumanoidCharacter\obj\Debug\HumanoidCharacter.csprojResolveAssemblyReference.cache
