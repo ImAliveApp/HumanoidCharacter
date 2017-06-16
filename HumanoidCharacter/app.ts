@@ -339,4 +339,14 @@ class AliveClass implements IAliveAgent {
     onWeatherReceived(weather: IAliveWeather) {
 
     }
+
+    /**
+     * This method will be called once a user event will occur.
+     * You can use AgentConstants.APPLICATION_EVENT_x to check which event occurred.
+     * @param eventName The name of the event, compare this to AgentConstants.APPLICATION_EVENT_x.
+     * @param jsonedData Extra data about the event.
+     */
+    onUserEventOccurred(eventName: string, jsonedData: string): void {
+
+    }
 }
