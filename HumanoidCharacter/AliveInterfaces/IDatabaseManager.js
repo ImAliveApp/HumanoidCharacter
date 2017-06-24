@@ -1,2 +1,0 @@
-;
-//# sourceMappingURL=IDatabaseManager.js.map

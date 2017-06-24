@@ -1,2 +1,0 @@
-;
-//# sourceMappingURL=ISpeechToTextManager.js.map

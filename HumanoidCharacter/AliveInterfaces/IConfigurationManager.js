@@ -1,2 +1,0 @@
-;
-//# sourceMappingURL=IConfigurationManager.js.map

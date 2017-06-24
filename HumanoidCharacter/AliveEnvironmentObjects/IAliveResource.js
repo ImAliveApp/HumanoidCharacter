@@ -1,2 +1,0 @@
-;
-//# sourceMappingURL=IAliveResource.js.map
